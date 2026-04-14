@@ -1,0 +1,26 @@
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <span class="logo-text">mobatai</span>
+      <span class="logo-dot">.</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Inicio</a></li>
+      <li><a href="/about" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">Nosotros</a></li>
+      <li><a href="/contact" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">Contacto</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="/propuesta" class="btn btn-primary btn-sm {% if request.endpoint == 'propuesta' %}active{% endif %}">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Generá tu propuesta
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>

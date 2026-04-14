@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}Generá tu propuesta — Mobatai{% endblock %}
+{% block meta_desc %}Contanos tu negocio y el problema que querés resolver. En segundos te mostramos una propuesta de solución personalizada.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow glow-1"></div>
+    <div class="hero-glow glow-2"></div>
+  </div>
+  <div class="container">
+    <div class="page-hero-content">
+      <span class="section-tag">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        &nbsp;Propuesta con IA
+      </span>
+      <h1>Describí tu problema.<br /><span class="gradient-text">Recibí una propuesta en segundos.</span></h1>
+      <p>Sin formularios genéricos. Cuatro preguntas simples y la IA de Mobatai analiza tu caso y te muestra por dónde empezaría a resolverlo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wizard-section section">
+  <div class="container">
+    <div class="wizard-wrapper">
+
+      <!-- ── Barra de progreso ── -->
+      <div class="wizard-progress">
+        <div class="wizard-progress-bar" id="progressBar" style="width: 25%"></div>
+      </div>
+      <div class="wizard-step-label" id="stepLabel">Paso 1 de 4</div>
+
+      <!-- ══ PASO 1 ══ -->
+      <div class="wizard-step active" id="step-1">
+        <div class="step-header">
+          <div class="step-icon"><i class="fa-solid fa-store"></i></div>
+          <h2>¿A qué se dedica tu negocio?</h2>
+          <p>No hace falta que sea perfecto. Contanos brevemente qué hacés o vendés.</p>
+        </div>
+        <div class="form-group">
+          <textarea
+            id="input-negocio"
+            rows="4"
+            placeholder='Ej: "Tengo una veterinaria con turno online y venta de productos", "Soy community manager freelance con 8 clientes", "Tengo un emprendimiento de ropa por Instagram"...'
+          ></textarea>
+        </div>
+        <div class="wizard-nav">
+          <span></span>
+          <button class="btn btn-primary" onclick="goStep(2)" id="btn-1">
+            Siguiente <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ PASO 2 ══ -->
+      <div class="wizard-step" id="step-2">
+        <div class="step-header">
+          <div class="step-icon"><i class="fa-solid fa-fire"></i></div>
+          <h2>¿Qué tarea o proceso te consume más tiempo?</h2>
+          <p>La que más te molesta, la que hacés todos los días sin querer, la que odiás tener que hacer.</p>
+        </div>
+        <div class="form-group">
+          <textarea
+            id="input-problema"
+            rows="4"
+            placeholder='Ej: "Responder las mismas preguntas por WhatsApp todo el día", "Cargar pedidos a mano en una planilla", "Hacer el seguimiento de cada cliente uno por uno", "Armar el informe semanal de ventas desde cero"...'
+          ></textarea>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(1)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior
+          </button>
+          <button class="btn btn-primary" onclick="goStep(3)">
+            Siguiente <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ PASO 3 ══ -->
+      <div class="wizard-step" id="step-3">
+        <div class="step-header">
+          <div class="step-icon"><i class="fa-solid fa-clock"></i></div>
+          <h2>¿Cuánto tiempo por semana creés que perdés en eso?</h2>
+          <p>Una estimación está bien. No necesita ser exacta.</p>
+        </div>
+        <div class="time-options">
+          <button class="time-opt" data-val="Menos de 2 horas">
+            <span class="time-opt-num">-2hs</span>
+            <span class="time-opt-label">Un rato, pero molesta igual</span>
+          </button>
+          <button class="time-opt" data-val="Entre 2 y 5 horas">
+            <span class="time-opt-num">2–5hs</span>
+            <span class="time-opt-label">Una parte del día</span>
+          </button>
+          <button class="time-opt" data-val="Entre 5 y 10 horas">
+            <span class="time-opt-num">5–10hs</span>
+            <span class="time-opt-label">Demasiado tiempo</span>
+          </button>
+          <button class="time-opt" data-val="Más de 10 horas">
+            <span class="time-opt-num">+10hs</span>
+            <span class="time-opt-label">Es un problema serio</span>
+          </button>
+        </div>
+        <div class="wizard-nav" style="margin-top: 16px;">
+          <button class="btn btn-ghost" onclick="goStep(2)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior
+          </button>
+          <button class="btn btn-primary" onclick="goStep(4)">
+            Siguiente <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ PASO 4 ══ -->
+      <div class="wizard-step" id="step-4">
+        <div class="step-header">
+          <div class="step-icon"><i class="fa-solid fa-wrench"></i></div>
+          <h2>¿Qué herramientas usás hoy?</h2>
+          <p>WhatsApp, planillas, algún CRM, redes sociales, apps de gestión... lo que sea.</p>
+        </div>
+        <div class="form-group">
+          <textarea
+            id="input-herramientas"
+            rows="3"
+            placeholder='Ej: "WhatsApp Business, Google Sheets, Instagram, Mercado Libre", "Solo papel y Excel", "Nada, todo en la cabeza"...'
+          ></textarea>
+        </div>
+        <div class="wizard-nav">
+          <button class="btn btn-ghost" onclick="goStep(3)">
+            <i class="fa-solid fa-arrow-left"></i> Anterior
+          </button>
+          <button class="btn btn-primary btn-generar" onclick="generarPropuesta()" id="btn-generar">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Generar mi propuesta
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ LOADING ══ -->
+      <div class="wizard-step" id="step-loading">
+        <div class="loading-state">
+          <div class="loading-orb">
+            <div class="orb-ring"></div>
+            <div class="orb-ring ring-2"></div>
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <h3>Analizando tu caso...</h3>
+          <p>La IA de Mobatai está leyendo tu situación y armando una propuesta personalizada. Unos segundos.</p>
+        </div>
+      </div>
+
+      <!-- ══ RESULTADO ══ -->
+      <div class="wizard-step" id="step-resultado">
+        <div class="resultado-header">
+          <div class="resultado-badge">
+            <i class="fa-solid fa-circle-check"></i>
+            Propuesta preliminar generada
+          </div>
+          <h2>Esto haría Mobatai por tu negocio</h2>
+        </div>
+
+        <div class="propuesta-content" id="propuestaContent">
+          <!-- Se inyecta el HTML generado por la IA -->
+        </div>
+
+        <div class="resultado-disclaimer">
+          <i class="fa-solid fa-circle-info"></i>
+          <p>Esta es una propuesta <strong>preliminar</strong> basada en lo que nos contaste. La solución real y el precio exacto se definen en una charla de 30 minutos, sin costo.</p>
+        </div>
+
+        <div class="resultado-actions">
+          <a
+            id="btnWhatsapp"
+            href="#"
+            target="_blank"
+            class="btn btn-primary btn-lg"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+            Hablar con Mobatai por WhatsApp
+          </a>
+          <button class="btn btn-ghost btn-lg" onclick="resetWizard()">
+            <i class="fa-solid fa-rotate-left"></i>
+            Empezar de nuevo
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ ERROR ══ -->
+      <div class="wizard-step" id="step-error">
+        <div class="error-state">
+          <div class="error-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+          <h3>Algo salió mal</h3>
+          <p id="errorMsg">Hubo un error al generar la propuesta.</p>
+          <div class="error-actions">
+            <button class="btn btn-ghost" onclick="resetWizard()">Intentar de nuevo</button>
+            <a href="https://wa.me/5491131881483" target="_blank" class="btn btn-primary">
+              <i class="fa-brands fa-whatsapp"></i> Escribinos directo
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // ── Estado ────────────────────────────────
+  let currentStep = 1;
+  let selectedHoras = '';
+
+  const stepCount = 4;
+  const stepLabels = {
+    1: 'Paso 1 de 4 — Tu negocio',
+    2: 'Paso 2 de 4 — El problema',
+    3: 'Paso 3 de 4 — El tiempo',
+    4: 'Paso 4 de 4 — Tus herramientas',
+  };
+
+  // ── Opciones de tiempo ────────────────────
+  document.querySelectorAll('.time-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.time-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedHoras = btn.dataset.val;
+    });
+  });
+
+  // ── Navegación entre pasos ────────────────
+  function showStep(id) {
+    document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step-${id}`).classList.add('active');
+  }
+
+  function goStep(n) {
+    // Validaciones básicas
+    if (n === 2) {
+      const val = document.getElementById('input-negocio').value.trim();
+      if (!val) { shakeInput('input-negocio'); return; }
+    }
+    if (n === 3) {
+      const val = document.getElementById('input-problema').value.trim();
+      if (!val) { shakeInput('input-problema'); return; }
+    }
+    if (n === 4 && !selectedHoras) {
+      document.querySelectorAll('.time-opt').forEach(b => b.classList.add('shake'));
+      setTimeout(() => document.querySelectorAll('.time-opt').forEach(b => b.classList.remove('shake')), 500);
+      return;
+    }
+
+    currentStep = n;
+
+    // Barra de progreso
+    const pct = (n / stepCount) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('stepLabel').textContent = stepLabels[n] || '';
+
+    showStep(n);
+    window.scrollTo({ top: document.querySelector('.wizard-section').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  function shakeInput(id) {
+    const el = document.getElementById(id);
+    el.classList.add('shake');
+    el.focus();
+    setTimeout(() => el.classList.remove('shake'), 500);
+  }
+
+  // ── Generar propuesta ─────────────────────
+  async function generarPropuesta() {
+    const herramientas = document.getElementById('input-herramientas').value.trim();
+    const negocio      = document.getElementById('input-negocio').value.trim();
+    const problema     = document.getElementById('input-problema').value.trim();
+
+    // Mostrar loading
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('stepLabel').textContent = 'Generando propuesta...';
+    showStep('loading');
+    window.scrollTo({ top: document.querySelector('.wizard-section').offsetTop - 80, behavior: 'smooth' });
+
+    try {
+      const res = await fetch('/api/generar-propuesta', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          negocio,
+          problema,
+          horas: selectedHoras,
+          herramientas,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        // Inyectar HTML de propuesta
+        document.getElementById('propuestaContent').innerHTML = data.propuesta;
+
+        // Armar link de WhatsApp con contexto
+        const resumen = encodeURIComponent(
+          `Hola Mobatai! Completé el formulario de propuesta.\n\n` +
+          `*Negocio:* ${negocio}\n` +
+          `*Problema:* ${problema}\n` +
+          `*Tiempo perdido:* ${selectedHoras}\n\n` +
+          `Me gustaría hablar para avanzar.`
+        );
+        document.getElementById('btnWhatsapp').href = `https://wa.me/5491131881483?text=${resumen}`;
+
+        document.getElementById('stepLabel').textContent = '¡Propuesta lista!';
+        showStep('resultado');
+      } else {
+        document.getElementById('errorMsg').textContent = data.error;
+        showStep('error');
+      }
+
+    } catch (e) {
+      document.getElementById('errorMsg').textContent = 'Error de conexión. Revisá tu internet e intentá de nuevo.';
+      showStep('error');
+    }
+
+    window.scrollTo({ top: document.querySelector('.wizard-section').offsetTop - 80, behavior: 'smooth' });
+  }
+
+  // ── Reset ─────────────────────────────────
+  function resetWizard() {
+    document.getElementById('input-negocio').value = '';
+    document.getElementById('input-problema').value = '';
+    document.getElementById('input-herramientas').value = '';
+    document.querySelectorAll('.time-opt').forEach(b => b.classList.remove('selected'));
+    selectedHoras = '';
+    currentStep = 1;
+    document.getElementById('progressBar').style.width = '25%';
+    document.getElementById('stepLabel').textContent = stepLabels[1];
+    showStep(1);
+    window.scrollTo({ top: document.querySelector('.wizard-section').offsetTop - 80, behavior: 'smooth' });
+  }
+</script>
+{% endblock %}

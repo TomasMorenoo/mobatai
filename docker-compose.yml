@@ -1,0 +1,26 @@
+services:
+  mobatai:
+    build: .
+    container_name: mobatai_web
+    restart: unless-stopped
+
+    ports:
+      - "5003:5000"   # VPS:5003 → contenedor:5000
+
+    env_file:
+      - .env
+
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    volumes:
+      # Logs persistentes (opcional)
+      - ./logs:/app/logs
