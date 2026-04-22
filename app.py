@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import os
+import smtplib
+from email.mime.text import MIMEText
 from dotenv import load_dotenv
 from google import genai
 
@@ -11,7 +13,7 @@ app = Flask(__name__)
 # ─────────────────────────────────────────────
 #  Config básica
 # ─────────────────────────────────────────────
-app.config["DEBUG"] = True
+app.config["DEBUG"] = os.environ.get("FLASK_DEBUG", "0") == "1"
 app.config["SITE_NAME"] = "Mobatai"
 app.config["SITE_TAGLINE"] = "Automatizaciones y webs 100% a medida."
 
@@ -51,9 +53,36 @@ def propuesta():
     return render_template("propuesta.html")
 
 
+@app.route("/politica-de-privacidad")
+def privacidad():
+    return render_template("privacidad.html")
+
+
+@app.route("/terminos-y-condiciones")
+def terminos():
+    return render_template("terminos.html")
+
+
 # ─────────────────────────────────────────────
 #  API: Formulario de contacto
 # ─────────────────────────────────────────────
+def _send_contact_email(name, email, message):
+    mail_user = os.environ.get("MAIL_USER", "").strip()
+    mail_pass = os.environ.get("MAIL_PASS", "").replace(" ", "").strip()
+    if not mail_user or not mail_pass:
+        return
+    body = f"Nuevo contacto desde Mobatai\n\nNombre: {name}\nEmail: {email}\n\nMensaje:\n{message}"
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = f"[Mobatai] Nuevo contacto — {name}"
+    msg["From"] = mail_user
+    msg["To"] = mail_user
+    msg["Reply-To"] = email
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(mail_user, mail_pass)
+        server.send_message(msg)
+
+
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
     data = request.get_json()
@@ -65,6 +94,11 @@ def api_contact():
         return jsonify({"ok": False, "error": "Faltan campos"}), 400
 
     print(f"[CONTACT] {name} <{email}> → {message}")
+    try:
+        _send_contact_email(name, email, message)
+    except Exception as e:
+        print(f"[MAIL ERROR] {e}")
+
     return jsonify({"ok": True, "msg": "Mensaje recibido. Te contactamos pronto."})
 
 

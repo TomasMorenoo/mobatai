@@ -209,6 +209,10 @@
 
 {% endblock %}
 
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.5/purify.min.js"></script>
+{% endblock %}
+
 {% block extra_scripts %}
 <script>
   // ── Estado ────────────────────────────────
@@ -300,7 +304,7 @@
 
       if (data.ok) {
         // Inyectar HTML de propuesta
-        document.getElementById('propuestaContent').innerHTML = data.propuesta;
+        document.getElementById('propuestaContent').innerHTML = DOMPurify.sanitize(data.propuesta);
 
         // Armar link de WhatsApp con contexto
         const resumen = encodeURIComponent(

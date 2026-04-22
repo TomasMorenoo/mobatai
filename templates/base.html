@@ -6,6 +6,21 @@
   <title>{% block title %}{{ site_name }}{% endblock %}</title>
   <meta name="description" content="{% block meta_desc %}{{ tagline }}{% endblock %}" />
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="{{ site_name }}" />
+  <meta property="og:title" content="{% block og_title %}{% block title2 %}{{ site_name }}{% endblock %}{% endblock %}" />
+  <meta property="og:description" content="{% block og_desc %}{{ tagline }}{% endblock %}" />
+  <meta property="og:url" content="{% block og_url %}https://mobatai.com{{ request.path }}{% endblock %}" />
+  <meta property="og:image" content="{% block og_image %}https://mobatai.com/static/img/og-default.png{% endblock %}" />
+  <meta property="og:locale" content="es_AR" />
+
+  <!-- Twitter/X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{% block tw_title %}{{ site_name }}{% endblock %}" />
+  <meta name="twitter:description" content="{% block tw_desc %}{{ tagline }}{% endblock %}" />
+  <meta name="twitter:image" content="{% block tw_image %}https://mobatai.com/static/img/og-default.png{% endblock %}" />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
